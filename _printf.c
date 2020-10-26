@@ -1,60 +1,42 @@
-#include <stdlib.h>
-#include <stdarg.h>
 #include "holberton.h"
 
 /**
- * _printf - produces output according to a format
+ * _printf - print something
  * @format: character string
- * Return: number of characters printed excluding null byte
+ * Return: number of characters printed
  */
 int _printf(const char *format, ...)
 {
-	va_list arg;
-	unsigned int i, j, flag;
-	unsigned int len = 0;
-	print_t print[] = {
-		{"c", p_char}, {"s", p_str}, {"d", p_int},
-		{"i", p_int}, {"%", p_percent}, {NULL, NULL}
-	};
-	va_start(arg, format);
-	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
-		return (0);
-	i = 0;
-	while (format[i] != '\0')
+	unsigned int j;
+	int r, number = 0;
+	va_list valist;
+
+	if (format == NULL)
+		return (-1);
+	va_start(valist, format);
+
+	for (j = 0; format[j] != '\0'; j++)
 	{
-		if (format[i] == '%' && format[i + 1] != '%')
+		if (format[j] == '%')
 		{
-			j = 0;
-			flag = 0;
-			while (print[j].p != NULL)
+			j++;
+			if (format[j] == 'd' || format[j] == 'c' || format[j] == 'i')
+				r = func_int((format + j), va_arg(valist, int));
+			else if (format[j] == 's')
+				r = func_str((format + j), va_arg(valist, char*));
+			else if (format[j] == '%')
+				r = _putchar('%');
+			else
 			{
-				if (format[i + 1] == print[j].print[0])
-				{
-					len = len + print[j].p(arg);
-					flag = 1;
-					i++;
-				}
-				j++;
+				_putchar('%');
+				_putchar(format[j]);
+				r = 2;
 			}
-			if (flag == 0)
-			{
-				_putchar(format[i]);
-				len = len + 1;
-			}
-		}
-		else if (format[i] == '%' && format[i + 1] == '%')
-		{
-			_putchar('%');
-			i++;
-			len = len + 1;
+			number += r;
 		}
 		else
-{
-			_putchar(format[i]);
-			len = len + 1;
-		}
-		i++;
+			number += _putchar(format[j]);
 	}
-	va_end(arg);
-	return (len);
+	va_end(valist);
+	return (number);
 }
