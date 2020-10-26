@@ -40,13 +40,3 @@ int _printf(const char *format, ...)
 	va_end(valist);
 	return (number);
 }
-
-/**
- * _putchar - write character
- * @c: character to print
- * Return: on success 1
- */
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
-}
