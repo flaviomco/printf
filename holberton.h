@@ -5,22 +5,22 @@
 #include <limits.h>
 
 /**
- * struct format_func - Struct with format with its respective function
+ * struct print - Struct with format with its respective function
  *
- * @ft: The format
- * @func: The function associated
+ * @print: The format
+ * @p: The function associated
  */
-typedef struct format_func
+typedef struct print
 {
-	char *ft;
-	int (*func)();
-} format_func;
+	char *print;
+	int (*p)();
+} print_t;
 
 int _putchar(char c);
 int _printf(const char *format, ...);
-int p_char(va_list);
-int p_str(va_list);
-int p_int(va_list);
-int p_percent(va_list);
+int p_char(va_list arg);
+int p_str(va_list arg);
+int p_int(va_list arg);
+int p_percent(va_list arg);
 
 #endif

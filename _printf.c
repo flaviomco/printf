@@ -1,48 +1,60 @@
+#include <stdlib.h>
+#include <stdarg.h>
 #include "holberton.h"
+
 /**
- * _printf - Prints output to a format
- * @format: String to be printed
- * Return: number of printed chars
+ * _printf - produces output according to a format
+ * @format: character string
+ * Return: number of characters printed excluding null byte
  */
 int _printf(const char *format, ...)
 {
-	format_func ar_fm[] = {
+	va_list arg;
+	unsigned int i, j, flag;
+	unsigned int len = 0;
+	print_t print[] = {
 		{"c", p_char}, {"s", p_str}, {"d", p_int},
-		{"i", p_int}, {"%", p_percent}, {'\0', '\0'}
+		{"i", p_int}, {"%", p_percent}, {NULL, NULL}
 	};
-	va_list p_l;
-	int i, j, n = 0, sc = 0;
-	int m = 0;
-
-	if (format == '\0')
-		return (-1);
-	va_start(p_l, format);
+	va_start(arg, format);
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+		return (0);
 	i = 0;
 	while (format[i] != '\0')
 	{
-		if (format[i] == '%')
+		if (format[i] == '%' && format[i + 1] != '%')
 		{
-			if (format[i + 1] == '\0')
-				return (-1);
 			j = 0;
-			while (ar_fm[j].ft != '\0')
+			flag = 0;
+			while (print[j].p != NULL)
 			{
-				if (ar_fm[j].ft[0] == format[i + 1])
+				if (format[i + 1] == print[j].print[0])
 				{
-					n = ar_fm[j].func(p_l);
-					m = m + n;
+					len = len + print[j].p(arg);
+					flag = 1;
 					i++;
-					sc++;
 				}
 				j++;
 			}
+			if (flag == 0)
+			{
+				_putchar(format[i]);
+				len = len + 1;
+			}
+		}
+		else if (format[i] == '%' && format[i + 1] == '%')
+		{
+			_putchar('%');
+			i++;
+			len = len + 1;
 		}
 		else
-		{
+{
 			_putchar(format[i]);
+			len = len + 1;
 		}
 		i++;
 	}
-	va_end(p_l);
-	return ((i + m) - (2 * sc));
+	va_end(arg);
+	return (len);
 }
