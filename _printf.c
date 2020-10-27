@@ -1,15 +1,17 @@
 #include "holberton.h"
 
 /**
- * _printf - print something
+ * _printf - prints input
  * @format: character string
- * Return: number of characters printed
+ * Return: number of chars printed
  */
+
 int _printf(const char *format, ...)
 {
 	unsigned int j;
-	int r, number = 0;
+	int number = 0;
 	va_list valist;
+	int (*print)(const char *, va_list);
 
 	if (format == NULL)
 		return (-1);
@@ -20,19 +22,15 @@ int _printf(const char *format, ...)
 		if (format[j] == '%')
 		{
 			j++;
-			if (format[j] == 'd' || format[j] == 'c' || format[j] == 'i')
-				r = func_int((format + j), va_arg(valist, int));
-			else if (format[j] == 's')
-				r = func_str((format + j), va_arg(valist, char*));
-			else if (format[j] == '%')
-				r = _putchar('%');
-			else
+			print = type_func(format[j]);
+			if (print == NULL)
 			{
 				_putchar('%');
 				_putchar(format[j]);
-				r = 2;
+				number += 2;
 			}
-			number += r;
+			else
+				number += print(format + j, valist);
 		}
 		else
 			number += _putchar(format[j]);

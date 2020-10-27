@@ -1,12 +1,12 @@
 #include "holberton.h"
 
 /**
- *  print_func - prints a %d or %i
- * @num: number to print
- * Return: count of characters printed
+ * print_num - prints a number
+ * @num: number to be printed
+ * Return: count of chars printed
  */
 
-int print_func(int num)
+int print_num(int num)
 {
 	int count = 0;
 
@@ -26,7 +26,7 @@ int print_func(int num)
 	}
 	if (num > 9)
 	{
-		count += print_func(num / 10);
+		count += print_num(num / 10);
 	}
 	count += _putchar((num % 10) + '0');
 	return (count);

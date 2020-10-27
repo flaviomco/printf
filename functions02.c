@@ -1,39 +1,63 @@
 #include "holberton.h"
 
 /**
- * func_int -  prints int
- * @c: format info passed into function
- * @arg: int to translate then print
- * Return: number of characters printed
+ * type_func - checks the format character and returns function pointers
+ * @test: format char to test
+ * Return: pointer to print the correct type
  */
 
-int func_int(const char *c, int arg)
+int (*type_func(char test))(const char *c, va_list)
 {
+	int i;
+	print_t operators[] = {
+		{'c', print_int}, {'d', print_int},
+		{'i', print_int}, {'s', print_char},
+		{'r', print_char},
+		{'%', print_percent}, {0, NULL}
+	};
+
+	for (i = 0; operators[i].format != 0; i++)
+	{
+		if (test == operators[i].format)
+			return (operators[i].choose_print);
+	}
+	return (NULL);
+}
+
+/**
+ * print_int - prints characters according to format into c
+ * @c: format info passed to function
+ * @valist: valist passed form print to get argument
+ * Return: number of chars printed
+ */
+
+int print_int(const char *c, va_list valist)
+{
+	int arg = va_arg(valist, int);
+
 	switch (*c)
 	{
 	case 'c':
 		return (_putchar(arg));
 	case 'd':
-		return (print_func(arg));
+		return (print_num(arg));
 	case 'i':
-		return (print_func(arg));
+		return (print_num(arg));
 	}
 	return (0);
 }
 
-
 /**
- * func_str - string case
- *
+ * print_char - string case
  * @c: location in format
- * @arg: va_arg in printf.c
- *
+ * @valist: valist from printf to get argument
  * Return: count
  */
 
-int func_str(const char *c, char *arg)
+int print_char(const char *c, va_list valist)
 {
 	int i = 0;
+	char *arg = va_arg(valist, char*);
 
 	if (arg == NULL)
 	{
@@ -57,15 +81,31 @@ int func_str(const char *c, char *arg)
 		return (i);
 	}
 	case 'r':
+{
+	int len = 0;
+
+	while (arg[i] != '\0')
 	{
-		while (arg[i] != '\0')
-		{
-			i++;
-		}
-		for (i--; i >= 0; i--)
-			_putchar(arg[i]);
-		return (i);
+		i++;
 	}
+	for (i--; i >= 0; i--)
+		len += _putchar(arg[i]);
+	return (len);
+}
 	}
 	return (0);
-	}
+}
+
+/**
+ * print_percent - prints the % character
+ * @c: character to print
+ * @valist: unused valist
+ * Return: number of char printed
+ */
+
+int print_percent(const char *c, va_list valist __attribute__((unused)))
+{
+	if (*c == '%')
+		return (_putchar('%'));
+	return (0);
+}
