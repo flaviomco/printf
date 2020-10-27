@@ -5,50 +5,50 @@
  *
  * @format: text to be formated
  * @args: list of arguments
- * @spec: list of functions to format text
+ * @fx: list of functions to format text
  * Return: size of printed text
  */
 
-int aux_func(const char *format, va_list args, printer *spec)
+int aux_func(const char *format, va_list args, print_fx *fx)
 {
-	int a = 0, b, size = 0, test = 0;
+	int i = 0, j, size = 0, test = 0;
 
-	while (format && format[a])
+	while (format && format[i])
 	{
-		if (format[a] == '%')
+		if (format[i] == '%')
 		{
-			b = 0;
-			while (spec[b].c != NULL)
+			j = 0;
+			while (fx[j].c != NULL)
 			{
-				if (format[a + 1] == '%')
+				if (format[i + 1] == '%')
 				{
-					write(1, &format[a], 1);
+					write(1, &format[i], 1);
 					size++;
-					a++;
+					i++;
 					test = 1;
 					break;
 				}
-				else if (spec[b].c[0] == format[a + 1])
+				else if (fx[j].c[0] == format[i + 1])
 				{
-					size += spec[b].f(args);
-					a++;
+					size += fx[j].f(args);
+					i++;
 					test = 1;
 					break;
 				}
-				b++;
+				j++;
 			}
 			if (test == 0)
 			{
-				write(1, &format[a], 1);
+				write(1, &format[i], 1);
 				size++;
 			}
 		}
 		else
 		{
-			write(1, &format[a], 1);
+			write(1, &format[i], 1);
 			size++;
 		}
-		a++;
+		i++;
 	}
 	return (size);
 }

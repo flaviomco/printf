@@ -11,7 +11,7 @@ int _printf(const char *format, ...)
 {
 	va_list args;
 	int size = 0;
-	printer spec[] = {
+	print_fx fx[] = {
 		{"c", print_c},
 		{"s", print_s},
 		{"i", print_i},
@@ -23,7 +23,7 @@ int _printf(const char *format, ...)
 	{
 		return (-1);
 	}
-	size = _printf2(format, args, spec);
+	size = aux_func(format, args, fx);
 	va_end(args);
 	return (size);
 }

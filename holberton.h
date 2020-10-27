@@ -6,20 +6,20 @@
 #include <limits.h>
 
 /**
- * struct op - functions of formating text
+ * struct format_func- functions of formating text
  *
  * @c: argument character
  * @f: formating function
  */
 
-typedef struct op
+typedef struct format_func
 {
 	char *c;
 	int (*f)();
-} printer;
+} print_fx;
 
 int _printf(const char *format, ...);
-int _printf2(const char *format, va_list args, printer *spec);
+int aux_func(const char *format, va_list args, print_fx *fx);
 int print_c(va_list args);
 int print_s(va_list args);
 int print_i(va_list args);
