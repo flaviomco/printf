@@ -1,7 +1,7 @@
 #include "holberton.h"
 
 /**
- * _printf2 - selects the function to format the text
+ * aux_func - selects the function to format the text
  *
  * @format: text to be formated
  * @args: list of arguments
@@ -9,7 +9,7 @@
  * Return: size of printed text
  */
 
-int _printf2(const char *format, va_list args, printer *spec)
+int aux_func(const char *format, va_list args, printer *spec)
 {
 	int a = 0, b, size = 0, test = 0;
 
