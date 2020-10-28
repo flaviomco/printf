@@ -118,3 +118,34 @@ int print_b(va_list args)
 	}
 	return (len);
 }
+
+/**
+ * print_o - the unsigned int argument is converted to octal
+ * @args: pointer to arguments
+ * Return: number of digits printed
+ */
+int print_o(va_list args)
+{
+	unsigned int n, buff[1024];
+	int i, len = 0;
+	char p;
+
+	n = va_arg(args, int);
+	if (n < 1)
+	{
+		write(1, "0", 1);
+		return (1);
+	}
+	while (n > 0)
+	{
+		buff[len] = n % 8;
+		n /= 8;
+		len++;
+	}
+	for (i = len - 1; i >= 0; i--)
+	{
+		p = buff[i] + '0';
+		write(1, &p, 1);
+	}
+	return (len);
+}
