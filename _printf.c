@@ -18,6 +18,7 @@ int _printf(const char *format, ...)
 		{"d", print_i},
 		{"u", print_i},
 		{"b", print_b},
+		{"o", print_o},
 		{NULL, NULL}
 	};
 	va_start(args, format);
