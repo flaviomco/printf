@@ -23,6 +23,7 @@ int aux_func(const char *format, va_list args, print_fx *fx);
 int print_c(va_list args);
 int print_s(va_list args);
 int print_i(va_list args);
+int print_b(va_list args);
 int _putchar(char c);
 
 #endif
