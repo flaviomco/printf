@@ -28,6 +28,7 @@ int print_o(va_list args);
 int print_X(va_list args);
 int print_x(va_list args);
 int print_r(va_list args);
+int print_R(va_list args);
 int _putchar(char c);
 
 #endif
