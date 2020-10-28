@@ -73,3 +73,28 @@ int print_X(va_list args)
 	}
 	return (len);
 }
+
+/**
+ * print_r - Prints a string in reverse.
+ * @args: Variable string.
+ *
+ * Return: lenght of the string.
+ */
+int print_r(va_list args)
+{
+	char *p, s;
+	int i = 0, len = 0;
+
+	p = va_arg(args, char *);
+	while (p[i] != '\0')
+	{
+		len++;
+		i++;
+	}
+	for (i = len - 1; i >= 0; i--)
+	{
+		s = p[i];
+		write(1, &s, 1);
+	}
+	return (len);
+}
